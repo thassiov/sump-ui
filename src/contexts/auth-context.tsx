@@ -25,7 +25,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { tenantId, clearTenant } = useTenant();
+  const { tenantId } = useTenant();
   const [session, setSession] = useState<Session | null>(null);
   const [account, setAccount] = useState<TenantAccount | null>(null);
   const [isLoading, setIsLoading] = useState(true);

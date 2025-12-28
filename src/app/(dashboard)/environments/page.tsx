@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTenant } from "@/hooks/use-tenant";
 import { tenantsApi, ApiError } from "@/lib/api";
-import type { Tenant, TenantEnvironmentSummary } from "@/types";
+import type { TenantEnvironmentSummary } from "@/types";
 import { Plus, Layers, ArrowRight } from "lucide-react";
 
 export default function EnvironmentsPage() {

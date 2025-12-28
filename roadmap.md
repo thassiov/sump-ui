@@ -715,3 +715,4 @@ src/__tests__/
 - Add dark mode toggle
 - Add environment edit page
 - CI integration for automated testing
+- **Unified deployment**: Package sump-ui with sump server for single-binary deployment (serve UI as static files from sump backend, or use Nx/Turborepo monorepo structure)

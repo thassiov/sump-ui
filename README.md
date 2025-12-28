@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# sump-ui
 
-## Getting Started
+[![CI](https://github.com/thassiov/sump-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/thassiov/sump-ui/actions/workflows/ci.yml)
 
-First, run the development server:
+Admin dashboard for [sump](https://github.com/thassiov/sump) - Simple User Management Platform.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+> [!CAUTION]
+> This is still *very* WIP
+
+## Overview
+
+sump-ui provides a web-based admin interface for managing your sump server remotely. It gives tenant administrators a visual way to manage their tenants, environments, and users without direct API calls.
+
+## Features
+
+### Tenant Onboarding
+- Multi-step wizard to create a new tenant
+- Sets up owner account and initial environment in one flow
+- Automatic login after tenant creation
+
+### Authentication
+- Secure login with email/username + password
+- Session management via HTTP-only cookies
+- Protected dashboard routes with automatic redirects
+
+### Dashboard
+- Tenant overview with key information
+- Quick actions for common tasks
+- Copy tenant ID with one click
+
+### Environment Management
+- List all environments in your tenant
+- Create new environments
+- View environment details and ID
+- Delete environments with confirmation dialog
+
+### User Management
+- Create users within any environment
+- Set user credentials (name, email, username, password)
+- Optional fields for phone and avatar URL
+- Form validation for required fields
+
+### Settings
+- View and edit tenant name
+- View tenant metadata and custom properties
+- Session information display (account type, expiration)
+
+## Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **UI Components**: shadcn/ui
+- **Styling**: Tailwind CSS v4
+- **Forms**: React Hook Form + Zod validation
+- **HTTP**: Native fetch with credentials for cookie auth
+- **Testing**: Playwright E2E
+
+## Requirements
+
+- Node.js >= 20
+- A running [sump](https://github.com/thassiov/sump) server
+
+## Installation
+
+```sh
+git clone https://github.com/thassiov/sump-ui.git
+cd sump-ui
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+# URL of your sump API server
+NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
+```
 
-## Learn More
+## Running
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+# Development server (default: http://localhost:3000)
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Production build
+npm run build
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Testing
 
-## Deploy on Vercel
+```sh
+# Run E2E tests (requires sump server running)
+npm run test:e2e
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Run with Playwright UI
+npm run test:e2e:ui
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Debug mode
+npm run test:e2e:debug
+
+# View test report
+npm run test:e2e:report
+```
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── (auth)/login/          # Login page
+│   ├── (dashboard)/           # Protected dashboard routes
+│   │   ├── dashboard/         # Home/overview
+│   │   ├── environments/      # Environment CRUD
+│   │   │   └── [envId]/users/ # User management
+│   │   └── settings/          # Tenant & account settings
+│   └── setup/                 # Tenant onboarding wizard
+├── components/
+│   ├── ui/                    # shadcn components
+│   ├── forms/                 # Form components
+│   └── layouts/               # Sidebar, header
+├── contexts/                  # Auth & tenant context
+├── hooks/                     # useAuth, useTenant
+├── lib/api/                   # API client modules
+└── types/                     # TypeScript definitions
+```
+
+## Related Projects
+
+- [sump](https://github.com/thassiov/sump) - The backend API server this UI connects to
+
+## License
+
+[MIT](./LICENSE)
