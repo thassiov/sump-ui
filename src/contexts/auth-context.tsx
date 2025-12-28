@@ -17,7 +17,7 @@ interface AuthContextType {
   account: TenantAccount | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (identifier: string, password: string) => Promise<void>;
+  login: (identifier: string, password: string, overrideTenantId?: string) => Promise<void>;
   logout: () => Promise<void>;
   checkSession: () => Promise<boolean>;
 }
@@ -62,8 +62,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [checkSession]);
 
   const login = useCallback(
-    async (identifier: string, password: string) => {
-      if (!tenantId) {
+    async (identifier: string, password: string, overrideTenantId?: string) => {
+      // Use override if provided (fixes race condition when setting tenant and logging in)
+      const effectiveTenantId = overrideTenantId || tenantId;
+
+      if (!effectiveTenantId) {
         throw new Error("No tenant selected");
       }
 
@@ -77,7 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           ? { phone: identifier, password }
           : { username: identifier, password };
 
-      const response = await authApi.login(tenantId, credentials);
+      const response = await authApi.login(effectiveTenantId, credentials);
       setSession(response.session);
       // Account details would be fetched separately if needed
     },

@@ -36,13 +36,11 @@ export function LoginForm() {
     setIsLoading(true);
 
     try {
-      // Set tenant ID first
+      // Set tenant ID for future use (persists in localStorage)
       setTenantId(tenantIdInput);
 
-      // Small delay to ensure context updates
-      await new Promise((resolve) => setTimeout(resolve, 50));
-
-      await login(identifier, password);
+      // Pass tenantId directly to avoid race condition with context state
+      await login(identifier, password, tenantIdInput);
       router.push("/");
     } catch (err) {
       if (err instanceof ApiError) {

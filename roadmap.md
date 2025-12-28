@@ -700,6 +700,12 @@ src/__tests__/
    - UI change: Remove password from form, implement invite/password-reset flow
    - Use signup endpoint for self-registration instead
 
+## TODO - Fixes Needed
+
+- [ ] **Environment edit page missing**: Need to create `/environments/[envId]/edit` page for editing environment details
+- [ ] **Setup page accessible after tenant creation**: Should redirect authenticated users away from `/setup` page
+- [ ] **Phone field in tenant setup**: Phone should not be sent when empty (currently sends empty string or undefined)
+
 ## Future Enhancements
 
 - Add pagination when API supports it
